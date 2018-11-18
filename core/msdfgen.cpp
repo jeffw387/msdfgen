@@ -102,8 +102,8 @@ void generateSDF(
       for (int x = 0; x < w; ++x) {
         double dummy;
         Point2 p = Vector2(x + .5, y + .5) / scale - translate;
-        double negDist = -SignedDistance::INFINITE.distance;
-        double posDist = SignedDistance::INFINITE.distance;
+        double negDist = -SignedDistance::MAXSIGNED.distance;
+        double posDist = SignedDistance::MAXSIGNED.distance;
         int winding = 0;
 
         std::vector<Contour>::const_iterator contour = shape.contours.begin();
@@ -125,7 +125,7 @@ void generateSDF(
             negDist = minDistance.distance;
         }
 
-        double sd = SignedDistance::INFINITE.distance;
+        double sd = SignedDistance::MAXSIGNED.distance;
         if (posDist >= 0 && fabs(posDist) <= fabs(negDist)) {
           sd = posDist;
           winding = 1;
@@ -179,9 +179,9 @@ void generatePseudoSDF(
       int row = shape.inverseYAxis ? h - y - 1 : y;
       for (int x = 0; x < w; ++x) {
         Point2 p = Vector2(x + .5, y + .5) / scale - translate;
-        double sd = SignedDistance::INFINITE.distance;
-        double negDist = -SignedDistance::INFINITE.distance;
-        double posDist = SignedDistance::INFINITE.distance;
+        double sd = SignedDistance::MAXSIGNED.distance;
+        double negDist = -SignedDistance::MAXSIGNED.distance;
+        double posDist = SignedDistance::MAXSIGNED.distance;
         int winding = 0;
 
         std::vector<Contour>::const_iterator contour = shape.contours.begin();
@@ -216,7 +216,7 @@ void generatePseudoSDF(
             negDist = minDistance.distance;
         }
 
-        double psd = SignedDistance::INFINITE.distance;
+        double psd = SignedDistance::MAXSIGNED.distance;
         if (posDist >= 0 && fabs(posDist) <= fabs(negDist)) {
           psd = posDist;
           winding = 1;
@@ -279,9 +279,9 @@ void generateMSDF(
         } sr, sg, sb;
         sr.nearEdge = sg.nearEdge = sb.nearEdge = NULL;
         sr.nearParam = sg.nearParam = sb.nearParam = 0;
-        double d = fabs(SignedDistance::INFINITE.distance);
-        double negDist = -SignedDistance::INFINITE.distance;
-        double posDist = SignedDistance::INFINITE.distance;
+        double d = fabs(SignedDistance::MAXSIGNED.distance);
+        double negDist = -SignedDistance::MAXSIGNED.distance;
+        double posDist = SignedDistance::MAXSIGNED.distance;
         int winding = 0;
 
         std::vector<Contour>::const_iterator contour = shape.contours.begin();
@@ -359,16 +359,16 @@ void generateMSDF(
               ->distanceToPseudoDistance(sb.minDistance, p, sb.nearParam);
 
         MultiDistance msd;
-        msd.r = msd.g = msd.b = msd.med = SignedDistance::INFINITE.distance;
+        msd.r = msd.g = msd.b = msd.med = SignedDistance::MAXSIGNED.distance;
         if (posDist >= 0 && fabs(posDist) <= fabs(negDist)) {
-          msd.med = SignedDistance::INFINITE.distance;
+          msd.med = SignedDistance::MAXSIGNED.distance;
           winding = 1;
           for (int i = 0; i < contourCount; ++i)
             if (windings[i] > 0 && contourSD[i].med > msd.med &&
                 fabs(contourSD[i].med) < fabs(negDist))
               msd = contourSD[i];
         } else if (negDist <= 0 && fabs(negDist) <= fabs(posDist)) {
-          msd.med = -SignedDistance::INFINITE.distance;
+          msd.med = -SignedDistance::MAXSIGNED.distance;
           winding = -1;
           for (int i = 0; i < contourCount; ++i)
             if (windings[i] < 0 && contourSD[i].med < msd.med &&
