@@ -32,6 +32,8 @@ public:
     const T & operator()(int x, int y) const;
     auto data() { return content; }
 
+    auto data() { return content; }
+
 private:
     T *content;
     int w, h;

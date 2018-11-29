@@ -5,19 +5,17 @@ namespace msdfgen {
 
 Shape::Shape() : inverseYAxis(false), fillRule(FillRule::NonZero) { }
 
-void Shape::addContour(const Contour &contour) {
-    contours.push_back(contour);
-}
+void Shape::addContour(const Contour &contour) { contours.push_back(contour); }
 
 #ifdef MSDFGEN_USE_CPP11
 void Shape::addContour(Contour &&contour) {
-    contours.push_back((Contour &&) contour);
+  contours.push_back((Contour &&) contour);
 }
 #endif
 
-Contour & Shape::addContour() {
-    contours.resize(contours.size()+1);
-    return contours[contours.size()-1];
+Contour &Shape::addContour() {
+  contours.resize(contours.size() + 1);
+  return contours[contours.size() - 1];
 }
 
 bool Shape::validate() const {
@@ -33,7 +31,8 @@ bool Shape::validate() const {
             }
         }
     }
-    return true;
+  }
+  return true;
 }
 
 void Shape::normalize() {
@@ -75,8 +74,10 @@ void Shape::normalize() {
 }
 
 void Shape::bounds(double &l, double &b, double &r, double &t) const {
-    for (std::vector<Contour>::const_iterator contour = contours.begin(); contour != contours.end(); ++contour)
-        contour->bounds(l, b, r, t);
+  for (std::vector<Contour>::const_iterator contour = contours.begin();
+       contour != contours.end();
+       ++contour)
+    contour->bounds(l, b, r, t);
 }
 
-}
+}  // namespace msdfgen

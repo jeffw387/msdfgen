@@ -3,7 +3,8 @@
 
 namespace msdfgen {
 
-/// Represents a signed distance and alignment, which together can be compared to uniquely determine the closest edge segment.
+/// Represents a signed distance and alignment, which together can be compared to 
+// uniquely determine the closest edge segment.
 class SignedDistance {
 
 public:
