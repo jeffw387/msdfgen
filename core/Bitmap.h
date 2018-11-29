@@ -30,6 +30,7 @@ public:
     int height() const;
     T & operator()(int x, int y);
     const T & operator()(int x, int y) const;
+    auto data() { return content; }
 
 private:
     T *content;
