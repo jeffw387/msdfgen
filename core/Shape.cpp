@@ -5,35 +5,32 @@ namespace msdfgen {
 
 Shape::Shape() : inverseYAxis(false), fillRule(FillRule::NonZero) { }
 
-void Shape::addContour(const Contour &contour) {
-    contours.push_back(contour);
-}
+void Shape::addContour(const Contour &contour) { contours.push_back(contour); }
 
 #ifdef MSDFGEN_USE_CPP11
 void Shape::addContour(Contour &&contour) {
-    contours.push_back((Contour &&) contour);
+  contours.push_back((Contour &&) contour);
 }
 #endif
 
-Contour & Shape::addContour() {
-    contours.resize(contours.size()+1);
-    return contours[contours.size()-1];
+Contour &Shape::addContour() {
+  contours.resize(contours.size() + 1);
+  return contours[contours.size() - 1];
 }
 
 bool Shape::validate() const {
-    for (std::vector<Contour>::const_iterator contour = contours.begin(); contour != contours.end(); ++contour) {
-        if (!contour->edges.empty()) {
-            Point2 corner = (*(contour->edges.end()-1))->point(1);
-            for (std::vector<EdgeHolder>::const_iterator edge = contour->edges.begin(); edge != contour->edges.end(); ++edge) {
-                if (!*edge)
-                    return false;
-                if (!(*edge)->point(0).same(corner) )
-                    return false;
-                corner = (*edge)->point(1);
-            }
-        }
+  for (const auto& contour : contours) {
+    if (!contour.edges.empty()) {
+      // get last edge endpoint
+      Point2 corner = (*(contour.edges.end() - 1))->point(1);
+      for (const auto& edge : contour.edges) {
+        if (!edge) return false;
+        if (edge->point(0) != corner) return false;
+        corner = edge->point(1);
+      }
     }
-    return true;
+  }
+  return true;
 }
 
 void Shape::normalize() {
@@ -75,8 +72,10 @@ void Shape::normalize() {
 }
 
 void Shape::bounds(double &l, double &b, double &r, double &t) const {
-    for (std::vector<Contour>::const_iterator contour = contours.begin(); contour != contours.end(); ++contour)
-        contour->bounds(l, b, r, t);
+  for (std::vector<Contour>::const_iterator contour = contours.begin();
+       contour != contours.end();
+       ++contour)
+    contour->bounds(l, b, r, t);
 }
 
-}
+}  // namespace msdfgen
