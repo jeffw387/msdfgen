@@ -48,6 +48,11 @@ endfunction(folderize_sources)
 
 
 
+#----------------------------------------------------------------
+# Build Rules
+#----------------------------------------------------------------
+
+
 file(GLOB_RECURSE msdfgen_HEADERS
   "core/*.h"
 	# "lib/*.h"
