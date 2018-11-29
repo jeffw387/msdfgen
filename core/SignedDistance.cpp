@@ -5,7 +5,7 @@
 
 namespace msdfgen {
 
-const SignedDistance SignedDistance::MAXSIGNED(-1e240, 1);
+const SignedDistance SignedDistance::MAXVALUE(-1e240, 1);
 
 SignedDistance::SignedDistance() : distance(-1e240), dot(1) { }
 

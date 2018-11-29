@@ -8,7 +8,7 @@ namespace msdfgen {
 class SignedDistance {
 
 public:
-    static const SignedDistance MAXSIGNED;
+    static const SignedDistance MAXVALUE;
 
     double distance;
     double dot;
